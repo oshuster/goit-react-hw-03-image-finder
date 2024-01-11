@@ -1,16 +1,18 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
-};
+import { Component } from 'react';
+import Searchbar from './Searchbar/Searchbar';
+import style from './app.module.css';
+import ImageGallery from './ImageGallery/ImageGallery';
+
+class App extends Component {
+  state = {};
+  render() {
+    return (
+      <div className={style.App}>
+        <Searchbar />
+        <ImageGallery />
+      </div>
+    );
+  }
+}
+
+export default App;
