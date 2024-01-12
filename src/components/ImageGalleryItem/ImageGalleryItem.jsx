@@ -1,16 +1,16 @@
-import { Component } from 'react';
-import items from '../../temp/items.json';
+import style from './imageGalleryItem.module.css';
 
-class ImageGalleryItem extends Component {
-  state = {};
-  render() {
-    console.log(items);
-    return (
-      <li className="gallery-item">
-        <img src="" alt="" />
-      </li>
-    );
-  }
-}
+const ImageGalleryItem = ({ data }) => {
+  const content = data.hits.map(({ id, largeImageURL, webformatURL, tags }) => (
+    <li key={id} className={style.ImageGalleryItem}>
+      <img
+        src={webformatURL}
+        alt={tags}
+        className={style.ImageGalleryItem_image}
+      />
+    </li>
+  ));
+  return content;
+};
 
 export default ImageGalleryItem;
