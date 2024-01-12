@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import style from './searchbar.module.css';
-import Mysvg from '../../img/search-svgrepo-com.svg';
 
 class Searchbar extends Component {
   state = {};
