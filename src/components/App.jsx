@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { getPost } from 'components/api/fetchPictures';
+import { Notify } from 'notiflix/build/notiflix-aio';
 
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -23,30 +24,34 @@ class App extends Component {
 
   getSearchKey = searchKey => {
     const query = searchKey.trim().replace(/ /g, '+');
-    this.setState({ query });
+    this.setState({ query, page: 1, data: [] });
   };
 
-  async componentDidUpdate(_, prevState) {
+  componentDidUpdate(_, prevState) {
     if (
       this.state.page !== prevState.page ||
       this.state.query !== prevState.query
     ) {
-      this.handleRequest();
+      this.handleImageSearchRequest();
     }
   }
 
-  async handleRequest() {
+  async handleImageSearchRequest() {
     const { query, page } = this.state;
 
     try {
       this.setState({ isLoading: true });
       const response = await getPost(query, page);
+      if (response.data.totalHits === 0) {
+        Notify.info(`По даному запиту нічого не знайдено`);
+      }
       this.setState(({ data }) => ({
         data: [...data, ...response.data.hits],
         showBtn: this.state.page < Math.ceil(response.data.totalHits / 12),
       }));
     } catch (error) {
       this.setState({ error: error.message });
+      Notify.failure(error.message);
     } finally {
       this.setState({ isLoading: false });
     }
